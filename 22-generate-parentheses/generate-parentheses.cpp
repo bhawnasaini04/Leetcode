@@ -1,27 +1,26 @@
 class Solution {
 public:
-    vector<string> result;
-
-    void backtrack(string curr, int open, int close, int n) {
-        // Base case
-        if (curr.length() == 2 * n) {
-            result.push_back(curr);
+    void backtrack(vector<string>& result, string current, int open, int close, int n) {
+        // If the string is complete
+        if (current.length() == 2 * n) {
+            result.push_back(current);
             return;
         }
 
-        // Add '('
+        // Add '(' if we still can
         if (open < n) {
-            backtrack(curr + "(", open + 1, close, n);
+            backtrack(result, current + "(", open + 1, close, n);
         }
 
-        // Add ')'
+        // Add ')' if it won't make it invalid
         if (close < open) {
-            backtrack(curr + ")", open, close + 1, n);
+            backtrack(result, current + ")", open, close + 1, n);
         }
     }
 
     vector<string> generateParenthesis(int n) {
-        backtrack("", 0, 0, n);
+        vector<string> result;
+        backtrack(result, "", 0, 0, n);
         return result;
     }
 };
