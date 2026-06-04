@@ -1,7 +1,6 @@
 class Solution {
 public:
     int findComplement(int num) {
-
         unsigned mask = 1;
 
         while (mask <= num)
