@@ -7,14 +7,16 @@ public:
         stringstream ss(preorder);
         string node;
 
-        while(getline(ss,node,',')) {
+        while (getline(ss, node, ',')) {
 
+            // Every node uses one slot
             slots--;
 
-            if(slots < 0)
+            if (slots < 0)
                 return false;
 
-            if(node != "#")
+            // Non-null node creates two new slots
+            if (node != "#")
                 slots += 2;
         }
 
