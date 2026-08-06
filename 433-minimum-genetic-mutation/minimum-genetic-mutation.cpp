@@ -1,51 +1,41 @@
 class Solution {
 public:
-    int minMutation(string startGene,
-                    string endGene,
-                    vector<string>& bank) {
+    int minMutation(string startGene, string endGene, vector<string>& bank) {
 
-        unordered_set<string> genes(
-            bank.begin(),
-            bank.end()
-        );
+        unordered_set<string> st(bank.begin(), bank.end());
 
-        if(!genes.count(endGene))
+        if (!st.count(endGene))
             return -1;
 
-        queue<pair<string,int>> q;
-        q.push({startGene,0});
+        queue<pair<string, int>> q;
+        q.push({startGene, 0});
 
-        vector<char> chars =
-            {'A','C','G','T'};
+        while (!q.empty()) {
 
-        while(!q.empty()) {
-
-            auto [gene,steps] = q.front();
+            auto [gene, steps] = q.front();
             q.pop();
 
-            if(gene == endGene)
+            if (gene == endGene)
                 return steps;
 
-            for(int i=0;i<8;i++) {
+            for (int i = 0; i < 8; i++) {
 
-                char old = gene[i];
+                char original = gene[i];
 
-                for(char ch : chars) {
+                for (char ch : {'A', 'C', 'G', 'T'}) {
+
+                    if (ch == original)
+                        continue;
 
                     gene[i] = ch;
 
-                    if(genes.count(gene)) {
-
-                        q.push({
-                            gene,
-                            steps+1
-                        });
-
-                        genes.erase(gene);
+                    if (st.count(gene)) {
+                        q.push({gene, steps + 1});
+                        st.erase(gene);      // Mark as visited
                     }
                 }
 
-                gene[i] = old;
+                gene[i] = original;
             }
         }
 
